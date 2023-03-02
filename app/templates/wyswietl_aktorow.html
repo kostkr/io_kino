@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+
+
+
+    <style>
+        h1{text-align: right;}
+    </style>
+
+
+    <title>REPERTUAR</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h2>REPERTUAR</h2>
+          <h1>
+           <td><a href='/'>COFNIJ</a></td>
+           </h1>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Tytul</th>
+            <th scope="col">Premiera</th>
+            <th scope="col">Dlugosc</th>
+            <th scope="col">Imie Aktora</th>
+            <th scope="col">Nazwisko Aktora</th>
+            <th scope="col">Plec Aktora</th>
+            <th scope="col"></th>
+            <th scope="col">Imie Roli</th>
+            <th scope="col">Nazwisko Roli</th>
+            <th scope="col">Plec Roli</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in filmy %}
+            <tr>
+                <td>{{ film.tytul }}</th>
+                <td>{{ film.premiera }}</td>
+                <td>{{ film.dlugosc }}</td>
+                <td>{{ film.o_imie }}</td>
+                <td>{{ film.o_nazwisko }}</td>
+                <td>{{ film.o_plec }}</td>
+                <td>{{ film.w_roli }}</td>
+                <td>{{ film.r_o_imie }}</td>
+                <td>{{ film.r_o_nazwisko }}</td>
+                <td>{{ film.r_o_plec }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+

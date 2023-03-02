@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>REPERTUAR</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h1>Konto administratora</h1>
+    <h2>LISTA SAL</h2>
+    <a class="btn btn-primary" href="/a_wyswietl_filmy">POWROT</a>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Limit miejsc</th>
+            <th scope="col">Wejscie dla niepelnosprawnych</th>
+            <th scope="col">Obsluga: Pracownik ID</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sala in sale %}
+            <tr>
+                <td>{{ sala.sala_id }}</th>
+                <td>{{ sala.limit_miejsc }}</td>
+                <td>{{ sala.wejscie_dla_niepelnosprawnych }}</td>
+                <td>{{ sala.pracownik_id }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+

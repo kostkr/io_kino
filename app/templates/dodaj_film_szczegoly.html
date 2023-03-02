@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>Dodawanie Filmu</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h1>Konto administratora</h1>
+    <h2>Dodawanie Szczegolow Do Filmu</h2>
+
+    <h3>Podaj tytul i date premiery filmu ktorego chcesz uzupelnic o dodatkowe informacje</h3>
+
+    <form action="" method = "POST">
+        <div class="form-group row">
+          <label for="tytul">Tytul</label>
+          <input type="text" class="form-control" name="tytul" id="tytul" value="{{film.tytul}}">
+        </div>
+        <div class="form-group row">
+            <label for="premiera">Data premiery(RRRR-MM-DD)</label>
+            <input type="text" class="form-control" name="premiera" id="premiera" value="{{film.premiera}}">
+        </div>
+
+
+    <h3>Podaj dodatkowe informacje</h3>
+
+        <div class="form-group row">
+            <label for="opis">Opis filmu</label>
+            <input type="text" class="form-control" name="opis" id="opis" value="{{film.opis}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="recenzje">Recenzje(INT.INT)</label>
+            <input type="text" class="form-control" name="recenzje" id="recenzje" value="{{film.recenzje}}">
+        </div>
+
+
+        <div class="form-group row">
+            <label for="jezyk_oryginalny">Jezyk oryginalny</label>
+            <input type="text" class="form-control" name="jezyk_oryginalny" id="jezyk_oryginalny" value="{{film.jezyk_oryginalny}}">
+        </div>
+
+
+        <div class="form-group row">
+            <label for="jezyk_lektor">Jezyk lektora</label>
+            <input type="text" class="form-control" name="jezyk_lektor" id="jezyk_lektor" value="{{film.jezyk_lektor}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="jezyk_napisy">Jezyk napisow</label>
+            <input type="text" class="form-control" name="jezyk_napisy" id="jezyk_napisy" value="{{film.jezyk_napisy}}">
+        </div>
+
+
+        <div class="form-group row">
+            <label for="pg_rating">Ograniczenie wiekowe</label>
+            <input type="text" class="form-control" name="pg_rating" id="pg_rating" value="{{film.pg_rating}}">
+        </div>
+
+
+
+
+        <button type="btnAdd" class="btn btn-primary">Submit</button>
+        <a href="/a_wyswietl_filmy" class="btn btn-primary">Cancel</a>
+      </form>
+</body>

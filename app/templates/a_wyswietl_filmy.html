@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>REPERTUAR</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h1>Konto administratora</h1>
+    <h2>REPERTUAR</h2>
+    <a class="btn btn-primary" href="dodaj_film">DODAJ FILM</a>
+    <a class="btn btn-primary" href="dodaj_film_szczegoly">UZUPELNIJ FILM</a>
+    <a class="btn btn-primary" href="dodaj_aktorow">UZUPELNIJ AKTOROW</a>
+    <br>
+    <br>
+    <a class="btn btn-primary" href="a_wyswietl_filmy/sprzedaz">GENERUJ RAPORT SPRZEDAZY</a>
+    <a class="btn btn-primary" href="a_wyswietl_filmy/sale_lista">SALE KINOWE</a>
+    <a class="btn btn-primary" href="/dodaj_seans">UTWORZ SEANS</a>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Tytul</th>
+            <th scope="col">Premiera</th>
+            <th scope="col">Dlugosc</th>
+            <th scope="col">Szczegoly</th>
+            <th scope="col">Aktorzy</th>
+            <th scope="col">Seanse</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in filmy %}
+            <tr>
+                <td>{{ film.id }}</th>
+                <td>{{ film.tytul }}</td>
+                <td>{{ film.premiera }}</td>
+                <td>{{ film.dlugosc }}</td>
+                    <td><a href='szczegoly/{{ film.id }}'>Zobacz Szczegoly</a></td>
+                    <td><a href='aktorzy/{{ film.id }}'>Zobacz Aktorow</a></td>
+                    <td><a href='seans/{{ film.id }}'>Zobacz Seanse</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+

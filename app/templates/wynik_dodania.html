@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>REPERTUAR</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <a class="btn btn-primary" href="/">POWROT</a>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">wynik</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for wynik in wyniki %}
+            <tr>
+                <td>{{ wynik.w }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+

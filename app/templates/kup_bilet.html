@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>Kup bilet</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h2>Kup bilet</h2>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Tytul</th>
+            <th scope="col">Premiera</th>
+            <th scope="col">Dlugosc(HH:MM:SS)</th>
+            <th scope="col">Data rozpoczecia(YYYY-MM-DD HH:MM:SS)</th>
+            <th scope="col">Data zakonczenia(YYYY-MM-DD HH:MM:SS)</th>
+            <th scope="col">Sala</th>
+            <th scope="col">Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for s in seans %}
+            <tr>
+                <td>{{ s.tytul }}</th>
+                <td>{{ s.premiera }}</td>
+                <td>{{ s.dlugosc }}</td>
+                <td>{{ s.data_rozpoczecia }}</td>
+                <td>{{ s.data_zakonczenia }}</td>
+                <td>{{ s.sala_id }}</td>
+                <td>{{ s.cena }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <br>
+      <big><strong>Wolne miejsca:</big></strong>
+        {% for s in seans %}
+            {{ s.l }}
+        {% endfor %}
+        <br>
+        <br>
+
+
+
+
+    <form action="" method = "POST">
+        <div class="form-group row">
+            <label for="liczba_biletow">Liczba biletow</label>
+            <input type="text" class="form-control" name="liczba_biletow" id="liczba_biletow" value="{{bilet.liczba_biletow}}">
+        </div>
+        <div class="form-group row">
+          <label for="imie">Imie</label>
+          <input type="text" class="form-control" name="imie" id="imie" value="{{bilet.imie}}">
+        </div>
+        <div class="form-group row">
+            <label for="nazwisko">Nazwisko</label>
+            <input type="text" class="form-control" name="nazwisko" id="nazwisko" value="{{bilet.nazwisko}}">
+        </div>
+        <div class="form-group row">
+            <label for="email">Adres email</label>
+            <input type="text" class="form-control" name="email" id="email" value="{{bilet.email}}">
+        </div>
+        <div class="form-group row">
+            <label for="nr_tel">Numer telefonu</label>
+            <input type="text" class="form-control" name="nr_tel" id="nr_tel" value="{{bilet.nr_tel}}">
+        </div>
+        <div class="form-group row">
+            <label for="plec">Plec</label>
+            <input type="text" class="form-control" name="plec" id="plec" value="{{bilet.plec}}">
+        </div>
+        <button type="btnAdd" class="btn btn-primary">Submit</button>
+        <a href="/" class="btn btn-primary">Cancel</a>
+      </form>
+</body>

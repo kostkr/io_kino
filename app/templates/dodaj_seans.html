@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>Dodawanie Filmu</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+</head>
+
+<body>
+    <h1>Konto administratora</h1>
+    <h2>Tworzenie seansu</h2>
+
+    <form action="" method = "POST">
+
+
+        <div class="form-group row">
+          <label for="tytul">Tytul filmu</label>
+          <input type="text" class="form-control" name="tytul" id="tytul" value="{{seans.tytul}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="premiera">premiera(RRRR-MM-DD)</label>
+            <input type="text" class="form-control" name="premiera" id="premiera" value="{{seans.premiera}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="data_rozpoczecia">Rozpoczecie seansu (RRRR-MM-DD) (HH:MM:SS)</label>
+            <input type="text" class="form-control" name="data_rozpoczecia" id="data_rozpoczecia" value="{{seans.data_rozpoczecia}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="data_zakonczenia">Zakonczenie seansu (RRRR-MM-DD) (HH:MM:SS)</label>
+            <input type="text" class="form-control" name="data_zakonczenia" id="data_zakonczenia" value="{{seans.data_zakonczenia}}">
+        </div>
+
+
+        <div class="form-group row">
+            <label for="id_s">Podaj id sali gdzie ma odbyc sie seans</label>
+            <input type="text" class="form-control" name="id_s" id="id_s" value="{{seans.id_s}}">
+        </div>
+
+        <div class="form-group row">
+            <label for="cena">Podaj cene za bilet na seans</label>
+            <input type="text" class="form-control" name="cena" id="cena" value="{{seans.cena}}">
+        </div>
+
+        <button type="btnAdd" class="btn btn-primary">Submit</button>
+        <a href="/a_wyswietl_filmy" class="btn btn-primary">Cancel</a>
+      </form>
+</body>
