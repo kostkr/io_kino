@@ -1,10 +1,8 @@
 import pyodbc
-server = 'localhost'
-database = ''
-username = 'sa'
-password = 'haslo'
-cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';UID='+username+';PWD='+ password)
-cursor = cnxn.cursor()
+from bd_connection import connection
+conn = connection()
+cursor = conn.cursor()
+
 
 
 
@@ -255,5 +253,5 @@ cursor.execute(wyswietl_filmy)
 
 cursor.commit()
 cursor.close()
-cnxn.close()
+conn.close()
 

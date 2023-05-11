@@ -1,15 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import pyodbc
 
-wyswietl_filmy = Flask(__name__)
+from bd_connection import connection
 
-def connection():
-    server = 'localhost'
-    database = ''
-    username = 'sa'
-    password = 'haslo'
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';UID='+username+';PWD='+ password)
-    return conn
+wyswietl_filmy = Flask(__name__)
 
 @wyswietl_filmy.route("/")
 def main():
