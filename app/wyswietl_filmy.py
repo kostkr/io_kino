@@ -24,7 +24,12 @@ def main():
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_filmy")
     for row in g.cursor.fetchall():
-        filmy.append({"id": row[0], "tytul": row[1], "premiera": row[2], "dlugosc": row[3]})
+        filmy.append( {
+                "id":       row[0], 
+                "tytul":    row[1], 
+                "premiera": row[2], 
+                "dlugosc":  row[3]
+            })
     return render_template("wyswietl_filmy.html", filmy = filmy)
 
 
@@ -34,7 +39,12 @@ def a_wyswietl_filmy():
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_filmy")
     for row in g.cursor.fetchall():
-        filmy.append({"id": row[0], "tytul": row[1], "premiera": row[2], "dlugosc": row[3]})
+        filmy.append({
+            "id":       row[0], 
+            "tytul":    row[1], 
+            "premiera": row[2], 
+            "dlugosc":  row[3]
+            })
     return render_template("a_wyswietl_filmy.html", filmy = filmy)
 
 
@@ -43,7 +53,14 @@ def sprzedaz():
     sprzedaz = []
     g.cursor.execute("SELECT * FROM raport_sprzedazy")
     for row in g.cursor.fetchall():
-        sprzedaz.append({"id": row[0], "l_seans": row[1], "srednia_cena_za_bilet": row[2], "l_sprz_biletow": row[3], "laczny_przychod": row[4]})
+        sprzedaz.append({
+                        "id":                    row[0], 
+                        "l_seans":               row[1], 
+                        "srednia_cena_za_bilet": row[2], 
+                        "l_sprz_biletow":        row[3], 
+                        "laczny_przychod":       row[4]
+                        })
+
     return render_template("a_sprzedaz.html", sprzedaz = sprzedaz)
 
 
@@ -52,7 +69,12 @@ def sale_lista():
     sale = []
     g.cursor.execute("SELECT * FROM wyswietl_sale_kinowe")
     for row in g.cursor.fetchall():
-        sale.append({"sala_id": row[0], "limit_miejsc": row[1], "wejscie_dla_niepelnosprawnych": row[2], "pracownik_id": row[3]})
+        sale.append({
+            "sala_id":                       row[0], 
+            "limit_miejsc":                  row[1], 
+            "wejscie_dla_niepelnosprawnych": row[2], 
+            "pracownik_id":                  row[3]
+            })
     return render_template("a_sale.html", sale = sale)
 
 
@@ -62,9 +84,9 @@ def dodaj_film():
     if request.method == 'GET':
         return render_template("dodaj_film.html", film = {})
     if request.method == 'POST':
-        tytul = str(request.form["tytul"])
+        tytul =    str(request.form["tytul"])
         premiera = str(request.form["premiera"])
-        dlugosc = str(request.form["dlugosc"])
+        dlugosc =  str(request.form["dlugosc"])
         g.cursor.execute("EXEC dodaj_film @tytul=?, @premiera=?, @dlugosc=?", tytul, premiera, dlugosc)
 
         wyniki=[]
@@ -80,12 +102,12 @@ def dodaj_seans():
     if request.method == 'GET':
         return render_template("dodaj_seans.html", seans = {})
     if request.method == 'POST':
-        tytul = str(request.form["tytul"])
-        premiera = str(request.form["premiera"])
+        tytul =            str(request.form["tytul"])
+        premiera =         str(request.form["premiera"])
         data_rozpoczecia = str(request.form["data_rozpoczecia"])
         data_zakonczenia = str(request.form["data_zakonczenia"])
-        id_s = str(request.form["id_s"])
-        cena = str(request.form["cena"])
+        id_s =             str(request.form["id_s"])
+        cena =             str(request.form["cena"])
         q = (""" EXEC dodaj_seans
                                   @tytul=?, 
                                   @premiera=?, 
@@ -183,7 +205,17 @@ def szczegoly(id):
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_szczegoly_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
-        filmy.append({"tytul": row[0], "premiera": row[1], "dlugosc": row[2], "opis": row[3], "recenzje": row[4], "jezyk_oryginalny": row[5], "jezyk_lektor": row[6], "jezyk_napisy": row[7], "pg_rating": row[8]})
+        filmy.append({
+            "tytul":            row[0], 
+            "premiera":         row[1], 
+            "dlugosc":          row[2], 
+            "opis":             row[3], 
+            "recenzje":         row[4], 
+            "jezyk_oryginalny": row[5], 
+            "jezyk_lektor":     row[6], 
+            "jezyk_napisy":     row[7], 
+            "pg_rating":        row[8]
+            })
     return render_template("wyswietl_filmy_szczegoly.html", filmy = filmy)
 
 
@@ -192,7 +224,18 @@ def aktorzy(id):
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_aktorow_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
-        filmy.append({"tytul": row[0], "premiera": row[1], "dlugosc": row[2], "o_imie": row[3], "o_nazwisko": row[4], "o_plec": row[5], "w_roli": row[6], "r_o_imie": row[7], "r_o_nazwisko": row[8], "r_o_plec": row[9]})
+        filmy.append({
+            "tytul":        row[0], 
+            "premiera":     row[1], 
+            "dlugosc":      row[2], 
+            "o_imie":       row[3], 
+            "o_nazwisko":   row[4], 
+            "o_plec":       row[5], 
+            "w_roli":       row[6], 
+            "r_o_imie":     row[7], 
+            "r_o_nazwisko": row[8], 
+            "r_o_plec":     row[9]
+            })
     return render_template("wyswietl_aktorow.html", filmy = filmy)
 
 
@@ -201,7 +244,16 @@ def seans(id):
     seanse = []
     g.cursor.execute("SELECT * FROM wyswietl_seanse_po_id(?)", id)
     for row in g.cursor.fetchall():
-        seanse.append({"tytul": row[0], "premiera": row[1], "dlugosc": row[2], "data_rozpoczecia": row[3], "data_zakonczenia": row[4], "sala_id": row[5], "seans_id":row[6], "cena":row[7]})
+        seanse.append({
+            "tytul":            row[0], 
+            "premiera":         row[1], 
+            "dlugosc":          row[2], 
+            "data_rozpoczecia": row[3], 
+            "data_zakonczenia": row[4], 
+            "sala_id":          row[5], 
+            "seans_id":         row[6], 
+            "cena":             row[7]
+            })
     return render_template("wyswietl_seans.html", seanse = seanse)
 
 
@@ -211,7 +263,11 @@ def sale(id):
     sale = []
     g.cursor.execute("SELECT * FROM wyswietl_sale_po_id(?)", id)
     for row in g.cursor.fetchall():
-        sale.append({"sala_id": row[0], "limit_miejsc": row[1], "wejscie_dla_niepelnosprawnych": row[2]})
+        sale.append({
+            "sala_id":                       row[0], 
+            "limit_miejsc":                  row[1], 
+            "wejscie_dla_niepelnosprawnych": row[2]
+            })
     return render_template("wyswietl_sale.html", sale = sale)
 
 
@@ -222,7 +278,16 @@ def bilety(id):
         seans = []
         g.cursor.execute("SELECT * FROM wyswietl_seans_po_id(?)", id)
         for row in g.cursor.fetchall():
-            seans.append({"tytul": row[0], "premiera": row[1], "dlugosc": row[2], "data_rozpoczecia": row[3], "data_zakonczenia": row[4], "sala_id": row[5], "seans_id":row[6], "cena":row[7]})
+            seans.append({
+                "tytul":            row[0], 
+                "premiera":         row[1], 
+                "dlugosc":          row[2], 
+                "data_rozpoczecia": row[3], 
+                "data_zakonczenia": row[4], 
+                "sala_id":          row[5], 
+                "seans_id":         row[6], 
+                "cena":             row[7]
+                })
 
         g.cursor.execute("SELECT dbo.wolne_miejsca(?)", id)
         for row in g.cursor.fetchall():
@@ -264,7 +329,17 @@ def rezyserzy(id):
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_szczegoly_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
-        filmy.append({"tytul": row[0], "premiera": row[1], "dlugosc": row[2], "opis": row[3], "recenzje": row[4], "jezyk_oryginalny": row[5], "jezyk_lektor": row[6], "jezyk_napisy": row[7], "pg_rating": row[8]})
+        filmy.append({
+            "tytul":            row[0], 
+            "premiera":         row[1], 
+            "dlugosc":          row[2], 
+            "opis":             row[3], 
+            "recenzje":         row[4], 
+            "jezyk_oryginalny": row[5], 
+            "jezyk_lektor":     row[6], 
+            "jezyk_napisy":     row[7], 
+            "pg_rating":        row[8]
+            })
     return render_template("wyswietl_filmy_szczegoly.html", filmy = filmy)
 
 
