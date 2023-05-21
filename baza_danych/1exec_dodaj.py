@@ -1,6 +1,7 @@
 import pyodbc
-
-from bd_connection import connection
+import sys
+sys.path.append('../')
+from io_kino.bd_connection import connection 
 conn = connection()
 cursor = conn.cursor()
 
