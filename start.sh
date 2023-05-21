@@ -1,7 +1,9 @@
 #!/bin/bash 
 
 
-# docker run -e "ACCEPT_EULA=Y" --platform linux/amd64 -e "SA_PASSWORD=citqus-viVcy6-najcyq" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest;
+#   uruchamiamy za kazdym razem po starcie dockera
+#   docker run -e "ACCEPT_EULA=Y" --platform linux/amd64 -e "SA_PASSWORD=citqus-viVcy6-najcyq" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+#
 #   chmod +x start.sh
 #   ./start.sh
 
