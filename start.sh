@@ -10,8 +10,7 @@
 #
 #   python3 -m venv name_of_virtualenv
 #   source name_of_virtualenv/bin/activate
-#   pip3 install Flask==2.3.2
-#   pip3 install pyodbc==4.0.34
+#   pip3 install -r requirements.txt
 #
 #   chmod +x start.sh
 #   ./start.sh
