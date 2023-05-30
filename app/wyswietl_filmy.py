@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, redirect, g
 import pyodbc
 
 from bd_connection import connection
+from addMovie import addMovie
+from addMovieDetails import addMovieDetails
+from addMovieActors import addMovieActors
+from bookTicket import bookTicket 
 
 wyswietl_filmy = Flask(__name__)
 
@@ -84,10 +88,12 @@ def dodaj_film():
     if request.method == 'GET':
         return render_template("dodaj_film.html", film = {})
     if request.method == 'POST':
-        tytul =    str(request.form["tytul"])
-        premiera = str(request.form["premiera"])
-        dlugosc =  str(request.form["dlugosc"])
-        g.cursor.execute("EXEC dodaj_film @tytul=?, @premiera=?, @dlugosc=?", tytul, premiera, dlugosc)
+        arg = (
+            str(request.form["tytul"]),
+            str(request.form["premiera"]),
+            str(request.form["dlugosc"])
+        )
+        addMovie(arg, g.cursor)
 
         wyniki=[]
         for row in g.cursor.fetchall():
@@ -102,21 +108,15 @@ def dodaj_seans():
     if request.method == 'GET':
         return render_template("dodaj_seans.html", seans = {})
     if request.method == 'POST':
-        tytul =            str(request.form["tytul"])
-        premiera =         str(request.form["premiera"])
-        data_rozpoczecia = str(request.form["data_rozpoczecia"])
-        data_zakonczenia = str(request.form["data_zakonczenia"])
-        id_s =             str(request.form["id_s"])
-        cena =             str(request.form["cena"])
-        q = (""" EXEC dodaj_seans
-                                  @tytul=?, 
-                                  @premiera=?, 
-                                  @data_rozpoczecia=?,
-                                  @data_zakonczenia=?,
-                                  @id_sala=?,
-                                  @cena=?
-          """)
-        g.cursor.execute(q, tytul, premiera, data_rozpoczecia, data_zakonczenia, id_s, cena)
+        arg = (
+            str(request.form["tytul"]),
+            str(request.form["premiera"]),
+            str(request.form["data_rozpoczecia"]),
+            str(request.form["data_zakonczenia"]),
+            str(request.form["id_s"]),
+            str(request.form["cena"])
+        )
+        addMovieScreening(arg, g.cursor)
 
         wyniki=[]
         for row in g.cursor.fetchall():
@@ -131,25 +131,17 @@ def dodaj_aktorow():
     if request.method == 'GET':
         return render_template("dodaj_aktorow.html", film = {})
     if request.method == 'POST':
-        tytul         = str(request.form["tytul"])
-        premiera      = str(request.form["premiera"])
-        imie          = str(request.form["imie"])
-        nazwisko      = str(request.form["nazwisko"])
-        plec          = str(request.form["plec"])
-        imie_roli     = str(request.form["imie_roli"])
-        nazwisko_roli = str(request.form["nazwisko_roli"])
-        plec_roli     = str(request.form["plec_roli"])
-        q = (""" EXEC dodaj_film_aktorzy
-                                        @tytul=?, 
-                                        @premiera=?, 
-                                        @imie_aktora=?,
-                                        @nazwisko_aktora=?,
-                                        @plec_aktora=?,
-                                        @imie_rola_aktora=?,
-                                        @nazwisko_rola_aktora=?,
-                                        @plec_rola_aktora=?
-          """)
-        g.cursor.execute(q, tytul, premiera, imie,nazwisko,plec,imie_roli,nazwisko_roli,plec_roli)
+        arg = [
+            str(request.form["tytul"]),
+            str(request.form["premiera"]),
+            str(request.form["imie"]),
+            str(request.form["nazwisko"]),
+            str(request.form["plec"]),
+            str(request.form["imie_roli"]),
+            str(request.form["nazwisko_roli"]),
+            str(request.form["plec_roli"])
+        ]
+        addMovieActors(arg, g.cursor)
 
         wyniki=[]
         for row in g.cursor.fetchall():
@@ -170,26 +162,18 @@ def dodaj_film_szczegoly():
     if request.method == 'GET':
         return render_template("dodaj_film_szczegoly.html", film = {})
     if request.method == 'POST':
-        tytul            = str(request.form["tytul"])
-        premiera         = str(request.form["premiera"])
-        opis             = str(request.form["opis"])
-        recenzje         = str(request.form["recenzje"])
-        jezyk_oryginalny = str(request.form["jezyk_oryginalny"])
-        jezyk_lektor     = str(request.form["jezyk_lektor"])
-        jezyk_napisy     = str(request.form["jezyk_napisy"])
-        pg_rating        = str(request.form["pg_rating"])
+        arg = [
+            str(request.form["tytul"]),
+            str(request.form["premiera"]),
+            str(request.form["opis"]),
+            str(request.form["recenzje"]),
+            str(request.form["jezyk_oryginalny"]),
+            str(request.form["jezyk_lektor"]),
+            str(request.form["jezyk_napisy"]),
+            str(request.form["pg_rating"])
+        ]
 
-        g.cursor.execute(""" EXEC dodaj_film_szczegoly 
-                                @tytul=?, 
-                                @premiera=?, 
-                                @opis=?,
-                                @recenzje=?,
-                                @jezyk_oryginalny=?,
-                                @jezyk_lektor=?,
-                                @jezyk_napisy=?,
-                                @pg_rating=?
-                                """
-                          ,tytul, premiera, opis, recenzje, jezyk_oryginalny, jezyk_lektor, jezyk_napisy, pg_rating)
+        addMovieDetails(arg, g.cursor)
 
         wyniki=[]
         for row in g.cursor.fetchall():
@@ -294,25 +278,17 @@ def bilety(id):
             seans.append({"l": row[0]})
         return render_template("kup_bilet.html", bilet = {}, seans = seans)
 
-
     if request.method == 'POST':
-        imie           = str(request.form["imie"])
-        nazwisko       = str(request.form["nazwisko"])
-        email          = str(request.form["email"])
-        nr_tel         = str(request.form["nr_tel"])
-        plec           = str(request.form["plec"])
-        liczba_biletow = str(request.form["liczba_biletow"])
-        q = """EXEC dodaj_zamowienie 
-          @liczba_biletow=?, 
-          @seans_id=?, 
-          @imie=?, 
-          @nazwisko=?, 
-          @email=?, 
-          @nr_tel=?, 
-          @plec=?
-        """
-        print(id)
-        g.cursor.execute(q, liczba_biletow, str(id), imie, nazwisko, email, nr_tel, plec)
+        arg = [
+            str(request.form["liczba_biletow"]),
+            str(id),
+            str(request.form["imie"]),
+            str(request.form["nazwisko"]),
+            str(request.form["email"]),
+            str(request.form["nr_tel"]),
+            str(request.form["plec"])
+        ]
+        bookTicket(arg, g.cursor)
 
         wyniki=[]
         for row in g.cursor.fetchall():
@@ -343,10 +319,12 @@ def rezyserzy(id):
     return render_template("wyswietl_filmy_szczegoly.html", filmy = filmy)
 
 
+# zrobic dodawanie rezyserow
 
 
 
 
 
 if(__name__ == "__main__"):
+    print("def")
     wyswietl_filmy.run()

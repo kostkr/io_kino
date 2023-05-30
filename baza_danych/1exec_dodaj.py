@@ -4,6 +4,12 @@ sys.path.append('../')
 from io_kino.bd_connection import connection 
 conn = connection()
 cursor = conn.cursor()
+from io_kino.addMovie import addMovie
+from io_kino.addMovieDetails import addMovieDetails
+from io_kino.bookTicket import bookTicket
+from io_kino.addMovieDirectors import addMovieDirectors
+from io_kino.addMovieActors import addMovieActors
+from io_kino.addMovieScreening import addMovieScreening
 
 
 
@@ -40,83 +46,11 @@ q = """
 """
 cursor.execute(q)
 
-def dodaj_film(arg):
-    s = ""
-    sql_procedura_dodaj_film = """ EXEC dodaj_film 
-        @tytul=?, 
-        @premiera=?, 
-        @dlugosc=?
-    """
-    cursor.execute(sql_procedura_dodaj_film, arg)
-
-def dodaj_film_szczegoly(arg):
-    sql_procedura_dodaj_film_szczegoly = """ EXEC dodaj_film_szczegoly 
-        @tytul=?, 
-        @premiera=?, 
-        @opis=?,
-        @recenzje=?,
-        @jezyk_oryginalny=?,
-        @jezyk_lektor=?,
-        @jezyk_napisy=?,
-        @pg_rating=?
-    """
-    cursor.execute(sql_procedura_dodaj_film_szczegoly, arg)
-
-
-def dodaj_film_rezyserzy(arg):
-    sql_procedura_dodaj_film_rezyserzy = """
-    EXEC dodaj_film_rezyserzy 
-        @tytul=?, 
-        @premiera=?, 
-        @imie_rezysera=?,
-        @nazwisko_rezysera=?,
-        @plec_rezysera=?,
-        @ocena_rezysera=?
-    """
-    cursor.execute(sql_procedura_dodaj_film_rezyserzy, arg)
-
-def dodaj_film_aktorzy(arg):
-    sql_procedura_dodaj_film_aktorzy = """ EXEC dodaj_film_aktorzy
-        @tytul=?, 
-        @premiera=?, 
-        @imie_aktora=?,
-        @nazwisko_aktora=?,
-        @plec_aktora=?,
-        @imie_rola_aktora=?,
-        @nazwisko_rola_aktora=?,
-        @plec_rola_aktora=?
-    """
-    cursor.execute(sql_procedura_dodaj_film_aktorzy, arg)
-
-def dodaj_seans(arg):
-    sql_procedura_dodaj_seans = """ EXEC dodaj_seans
-        @tytul=?, 
-        @premiera=?, 
-        @data_rozpoczecia=?, 
-        @data_zakonczenia=?,
-        @id_sala=?,
-        @cena=?
-    """
-    cursor.execute(sql_procedura_dodaj_seans, arg)
-
-def dodaj_zamowienie(arg):
-    sql_procedura = """ EXEC dodaj_zamowienie
-        @liczba_biletow=?,
-        @seans_id=?,
-        @imie=?, 
-        @nazwisko=?, 
-        @email=?, 
-        @nr_tel=?, 
-        @plec=?
-    """
-    cursor.execute(sql_procedura, arg)
-
-
 arg1 = (
     "TITANIC",
     "1997-12-19",
     "03:30:00",
-);dodaj_film(arg1)
+);addMovie(arg1, cursor)
 
 
 arg = (
@@ -126,7 +60,7 @@ arg = (
     "2024-02-11 17:30:00",
     "1",
     "22"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "1",
     "0",
@@ -135,7 +69,8 @@ arg = (
     "michal.nowak@gmail.com",
     "655690555",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
+
 arg = (
     "2",
     "0",
@@ -144,7 +79,7 @@ arg = (
     "karol.kowalski@gmail.com",
     "755790555",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "2",
     "0",
@@ -153,7 +88,7 @@ arg = (
     "martyna.nowak@gmail.com",
     "565790555",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "TITANIC",
     "1997-12-19",
@@ -161,7 +96,7 @@ arg = (
     "2024-02-12 14:50:00",
     "2",
     "24"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "1",
     "0",
@@ -170,7 +105,7 @@ arg = (
     "martyn.nowak@wp.com",
     "544790555",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "1",
     "0",
@@ -179,7 +114,7 @@ arg = (
     "agnieszka.nowak@gmail.com",
     "562790555",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "TITANIC",
     "1997-12-19",
@@ -187,7 +122,7 @@ arg = (
     "2023-02-14 23:05:00",
     "1",
     "28"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "2",
     "0",
@@ -196,7 +131,7 @@ arg = (
     "adam.adamczyk@gmail.com",
     "562110555",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 
 arg2 = (
     "TITANIC",
@@ -207,7 +142,7 @@ arg2 = (
     "angielski",
     "polski",
     13,
-);dodaj_film_szczegoly(arg2)
+);addMovieDetails(arg2, cursor)
 
 arg3 = (
     "TITANIC",
@@ -216,40 +151,44 @@ arg3 = (
     "Cameron",
     "mezczyzna",
     8.5
-); dodaj_film_rezyserzy(arg3)
+); addMovieDirectors(arg3, cursor)
 
 
 
 
 
 
-arg4 = (
-    "TITANIC", "1997-12-19", 
-    "LEONARDO", "DICAPRIO", "mezczyzna", 
-    "JACK", "DAWSON", "mezczyzna",
-); dodaj_film_aktorzy(arg4)
+addMovieActors( 
+    (
+        "TITANIC", "1997-12-19", 
+        "LEONARDO", "DICAPRIO", "mezczyzna", 
+        "JACK", "DAWSON", "mezczyzna"
+    ), cursor)
+
 arg4 = (
     "TITANIC", "1997-12-19", 
     "KATE", "WINSLET", "kobieta", 
     "ROSE", "BUKATER", "kobieta",
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg4 = (
     "TITANIC", "1997-12-19", 
     "BILLY", "ZANE", "mezczyzna", 
     "CALEDON", "HOCKLEY", "mezczyzna",
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg4 = (
     "TITANIC", "1997-12-19", 
     "KATHY", "BATES", "kobieta",
     "MOLLY", "BROWN", "kobieta", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 
 
 arg1 = (
     "ZIELONA MILA", 
     "2000-03-24", 
     "03:09:00", 
-);dodaj_film(arg1)
+)#;dodaj_film(arg1)
+addMovie(arg1, cursor)
+
 arg = (
     "ZIELONA MILA",
     "2000-03-24",
@@ -257,7 +196,7 @@ arg = (
     "2023-02-18 17:10:00",
     "1",
     "17"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "2",
     "3",
@@ -266,7 +205,7 @@ arg = (
     "jakub.adamczyk@gmail.com",
     "562114455",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "1",
     "3",
@@ -275,7 +214,7 @@ arg = (
     "bartek.adamczyk@gmail.com",
     "619114455",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "1",
     "3",
@@ -284,7 +223,7 @@ arg = (
     "konrat.adamczyk@gmail.com",
     "619154451",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "ZIELONA MILA",
     "2000-03-24",
@@ -292,7 +231,7 @@ arg = (
     "2023-02-18 18:25:00",
     "2",
     "18"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "1",
     "3",
@@ -301,7 +240,7 @@ arg = (
     "bartlomiej.adamczyk@gmail.com",
     "619454452",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "ZIELONA MILA",
     "2000-03-24",
@@ -309,7 +248,7 @@ arg = (
     "2023-02-19 15:05:00",
     "2",
     "16"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "1",
     "4",
@@ -318,7 +257,7 @@ arg = (
     "bartlomiej.nowak@gmail.com",
     "619454052",
     "mezczyzna"
-);#dodaj_zamowienie(arg)
+);#bookTicket(arg, cursor)
 arg = (
     "1",
     "3",
@@ -327,7 +266,7 @@ arg = (
     "bartlomiej.kowalski@gmail.com",
     "619054052",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "2",
     "3",
@@ -336,7 +275,7 @@ arg = (
     "karolina.kowalska@gmail.com",
     "619054952",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "ZIELONA MILA",
     "2000-03-24",
@@ -344,7 +283,7 @@ arg = (
     "2023-02-19 17:20:00",
     "1",
     "19"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "ZIELONA MILA",
     "2000-03-24",
@@ -352,7 +291,7 @@ arg = (
     "2023-02-19 23:15:00",
     "1",
     "22"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "2",
     "4",
@@ -361,7 +300,7 @@ arg = (
     "karolina.karolska@gmail.com",
     "610154952",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg2 = (
     "ZIELONA MILA", 
     "2000-03-24", 
@@ -371,7 +310,7 @@ arg2 = (
     "angielski",
     "polski",
     13,
-);dodaj_film_szczegoly(arg2)
+); addMovieDetails(arg2, cursor)
 arg3 = (
     "ZIELONA MILA", 
     "2000-03-24", 
@@ -379,7 +318,7 @@ arg3 = (
     "Darabont",
     "mezczyzna",
     8.6
-);dodaj_film_rezyserzy(arg3)
+); addMovieDirectors(arg3, cursor)
 
 
 
@@ -387,12 +326,12 @@ arg4 = (
     "ZIELONA MILA", "2000-03-24", 
     "TOM", "HANKS", "mezczyzna",
     "PAUL", "EDGECOMB", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg4 = (
     "ZIELONA MILA", "2000-03-24", 
     "MICHAEL", "DUNCAN", "mezczyzna",
     "JOHN", "COFFEY", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 
 
 
@@ -404,22 +343,22 @@ arg1 = (
     "SKAZANI NA SHAWSHANK", 
     "1995-04-16", 
     "02:22:00", 
-);dodaj_film(arg1)
+); addMovie(arg1, cursor)
 arg4 = (
     "SKAZANI NA SHAWSHANK", "1995-04-16", 
     "TIM", "ROBBINS", "mezczyzna",
     "ANDY", "DUFRESNE", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg4 = (
     "SKAZANI NA SHAWSHANK", "1995-04-16", 
     "MORGAN", "FREEMAN", "mezczyzna",
     "ELLIS", "REDDING", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg4 = (
     "SKAZANI NA SHAWSHANK", "1995-04-16", 
     "BOB", "GUNTON", "mezczyzna",
     "NACZELNIK", "NORTON", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 arg = (
     "SKAZANI NA SHAWSHANK",
     "1995-04-16",
@@ -427,7 +366,7 @@ arg = (
     "2023-03-01 14:30:00",
     "1",
     "17.50"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "SKAZANI NA SHAWSHANK",
     "1995-04-16",
@@ -435,7 +374,7 @@ arg = (
     "2023-03-01 23:30:00",
     "1",
     "25.70"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "SKAZANI NA SHAWSHANK",
     "1995-04-16",
@@ -443,7 +382,7 @@ arg = (
     "2023-03-01 21:00:00",
     "2",
     "21.10"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg2 = (
     "SKAZANI NA SHAWSHANK", 
     "1995-04-16", 
@@ -453,7 +392,7 @@ arg2 = (
     "polski",
     "polski",
     13,
-);dodaj_film_szczegoly(arg2)
+); addMovieDetails(arg2, cursor)
 arg3 = (
     "SKAZANI NA SHAWSHANK", 
     "1995-04-16", 
@@ -461,7 +400,7 @@ arg3 = (
     "Darabont",
     "mezczyzna",
     8.6
-); dodaj_film_rezyserzy(arg3)
+); addMovieDirectors(arg3, cursor)
 arg = (
     "2",
     "7",
@@ -470,7 +409,7 @@ arg = (
     "agata.karolska@gmail.com",
     "610134052",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 
 
 
@@ -482,13 +421,13 @@ arg = (
     "anna.karolska@gmail.com",
     "610111052",
     "kobieta"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 
 arg1 = (
     "FORREST GUMP", 
     "1994-11-4", 
     "02:22:00", 
-);dodaj_film(arg1)
+); addMovie(arg1, cursor)
 arg = (
     "FORREST GUMP",
     "1994-11-4",
@@ -496,7 +435,7 @@ arg = (
     "2023-03-02 14:00:00",
     "1",
     "19.45"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg = (
     "FORREST GUMP",
     "1994-11-4",
@@ -504,7 +443,7 @@ arg = (
     "2023-03-02 21:00:00",
     "3",
     "21.10"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 arg2 = (
     "FORREST GUMP", 
     "1994-11-4", 
@@ -514,7 +453,7 @@ arg2 = (
     "angielski",
     "polski",
     13,
-);dodaj_film_szczegoly(arg2)
+); addMovieDetails(arg2, cursor)
 arg3 = (
     "FORREST GUMP", 
     "1994-11-4", 
@@ -522,13 +461,13 @@ arg3 = (
     "Zemeckis",
     "mezczyzna",
     8.1
-);dodaj_film_rezyserzy(arg3)
+);addMovieDirectors(arg3, cursor)
 
 arg4 = (
     "FORREST GUMP", "1994-11-4", 
     "TOM", "HANKS", "mezczyzna",
     "FORREST", "GUMP", "mezczyzna", 
-); dodaj_film_aktorzy(arg4)
+); addMovieActors(arg4, cursor)
 
 
 
@@ -536,7 +475,7 @@ arg1 = (
     "LEON ZAWODOWIEC", 
     "1995-05-26", 
     "01:50:00", 
-)
+); addMovie(arg1, cursor)
 arg2 = (
     "LEON ZAWODOWIEC", 
     "1995-05-26", 
@@ -546,7 +485,7 @@ arg2 = (
     "angielski",
     "polski",
     16,
-)
+); addMovieDetails(arg2, cursor)
 arg3 = (
     "LEON ZAWODOWIEC", 
     "1995-05-26", 
@@ -554,16 +493,13 @@ arg3 = (
     "Besson",
     "mezczyzna",
     7.2
-)
-dodaj_film(arg1)
-dodaj_film_szczegoly(arg2)
-dodaj_film_rezyserzy(arg3)
+); addMovieDirectors(arg3, cursor)
 arg4 = (
     "LEON ZAWODOWIEC", "1995-05-26", 
     "JEAN", "RENO", "mezczyzna",
     "LEON","", "mezczyzna", 
     )
-dodaj_film_aktorzy(arg4)
+addMovieActors(arg4, cursor)
 arg = (
     "LEON ZAWODOWIEC",
     "1994-11-4",
@@ -571,7 +507,7 @@ arg = (
     "2023-03-02 21:00:00",
     "4",
     "23.10"
-);dodaj_seans(arg)
+);addMovieScreening(arg, cursor)
 
 
 
@@ -579,7 +515,7 @@ arg1 = (
     "MATRIX", 
     "1999-08-13", 
     "02:16:00", 
-);dodaj_film(arg1)
+); addMovie(arg1, cursor)
 arg2 = (
     "MATRIX", 
     "1999-08-13", 
@@ -589,7 +525,7 @@ arg2 = (
     "angielski",
     "polski",
     15,
-);dodaj_film_szczegoly(arg2)
+); addMovieDetails(arg2, cursor)
 arg3 = (
     "MATRIX", 
     "1999-08-13", 
@@ -597,7 +533,7 @@ arg3 = (
     "Wachowski",
     "kobieta",
     7.2
-);dodaj_film_rezyserzy(arg3)
+);addMovieDirectors(arg3, cursor)
 
 
 
@@ -608,7 +544,7 @@ arg3 = (
     "Wachowski",
     "kobieta",
     7.5
-);dodaj_film_rezyserzy(arg3)
+);addMovieDirectors(arg3, cursor)
 arg = (
     "2",
     "8",
@@ -617,7 +553,7 @@ arg = (
     "dawid.niski@gmail.com",
     "599921059",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "2",
     "9",
@@ -626,7 +562,7 @@ arg = (
     "dawid.wysoki@gmail.com",
     "501821059",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 arg = (
     "1",
     "9",
@@ -635,7 +571,7 @@ arg = (
     "sebastian.dawid@gmail.com",
     "593121059",
     "mezczyzna"
-);dodaj_zamowienie(arg)
+);bookTicket(arg, cursor)
 
 
 
