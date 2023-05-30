@@ -115,32 +115,51 @@ END
 cursor.execute(proc_dodaj_zamowinie)
 
 proc_dodaj_seans = """
-    CREATE PROCEDURE dodaj_seans 
-        @tytul NVARCHAR(255),
-        @premiera DATE,
-        @data_rozpoczecia DATETIME, 
-        @data_zakonczenia DATETIME, 
-        @id_sala INT,
-        @cena MONEY
-    AS
-    BEGIN
-    SET NOCOUNT ON
+CREATE PROCEDURE dodaj_seans 
+    @tytul NVARCHAR(255),
+    @premiera DATE,
+    @data_rozpoczecia DATETIME, 
+    @data_zakonczenia DATETIME, 
+    @id_sala INT,
+    @cena MONEY
+AS
+BEGIN
+    BEGIN TRY
+        SET NOCOUNT ON
 
-    DECLARE @id_f AS INT = (SELECT film_id FROM filmy WHERE tytul=@tytul AND premiera=@premiera)
-    IF @id_f IS NOT NULL BEGIN
-        INSERT INTO seanse_filmowe VALUES (
-            @id_f, 
-            @data_rozpoczecia, 
-            @data_zakonczenia, 
-            @id_sala,
-            @cena
-        )
-    END
-    ELSE
-        SELECT 'BLAD - FILM O PODANYM TYTULE I PREMIERZE NIE ISTNIEJE W BAZIE DANYCH'
+        DECLARE @id_f AS INT = (SELECT film_id FROM filmy WHERE tytul=@tytul AND premiera=@premiera)
+        IF @id_f IS NULL BEGIN
+            RAISERROR ('BLAD - FILM O PODANYM TYTULE I PREMIERZE NIE ISTNIEJE W BAZIE DANYCH' ,16,1)
+        END
+        ELSE IF (@cena <= 0) BEGIN
+            RAISERROR ('BLAD - CENA MUSI BYC DODATNIA' ,16,1)
+        END
+        ELSE BEGIN
+            INSERT INTO seanse_filmowe VALUES (
+                @id_f, 
+                @data_rozpoczecia, 
+                @data_zakonczenia, 
+                @id_sala,
+                @cena
+            )
+        END
 
+    END TRY
+        BEGIN CATCH
+            IF @@TRANCOUNT > 0
+                ROLLBACK TRAN
 
-    END
+            DECLARE @ErrorMessage NVARCHAR(4000);  
+            DECLARE @ErrorSeverity INT;  
+            DECLARE @ErrorState INT;  
+
+            SELECT   
+               @ErrorMessage = ERROR_MESSAGE(),  
+               @ErrorSeverity = ERROR_SEVERITY(),  
+               @ErrorState = ERROR_STATE();  
+            RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);  
+        END CATCH
+END
 """
 cursor.execute(proc_dodaj_seans)
 
@@ -155,7 +174,6 @@ proc_dodaj_film = """
     INSERT INTO filmy VALUES (@tytul, @premiera, @dlugosc);
 """
 cursor.execute(proc_dodaj_film)
-
 
 
 proc_dodaj_film_szczegoly = """
@@ -180,10 +198,18 @@ BEGIN
                 DECLARE @id_f AS INT = (SELECT film_id FROM filmy WHERE tytul=@tytul AND premiera=@premiera)
                 IF @id_f IS NULL 
                 BEGIN
-                    RAISERROR ('FILM O PODANYM TYTULE I PREMIERZE NIE ISTNIEJE W BAZIE DANYCH' ,16,1)
+                    RAISERROR ('ERROR - FILM O PODANYM TYTULE I PREMIERZE NIE ISTNIEJE W BAZIE DANYCH' ,16,1)
                 END
-                ELSE
-                BEGIN
+                ELSE IF @recenzje < 0.0 BEGIN
+                    RAISERROR ('ERROR - OCENA POWINNA BYC Z ZAKRESU 0-10' ,16,1)
+                END
+                ELSE IF @recenzje > 10.0 BEGIN
+                    RAISERROR ('ERROR - OCENA POWINNA BYC Z ZAKRESU 0-10' ,16,1)
+                END
+                ELSE IF @pg_rating <= 0 BEGIN
+                    RAISERROR ('ERROR - OGRANICZENIE WIEKOWE POWINNO BYC DODATNIE' ,16,1)
+                END
+                ELSE BEGIN
                     INSERT INTO filmy_szczegoly VALUES
                         (@id_f, @opis, @recenzje, @jezyk_oryginalny, @jezyk_lektor, @jezyk_napisy, @pg_rating)
                     COMMIT TRAN

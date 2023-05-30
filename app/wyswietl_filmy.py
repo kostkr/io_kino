@@ -5,6 +5,7 @@ from bd_connection import connection
 from addMovie import addMovie
 from addMovieDetails import addMovieDetails
 from addMovieActors import addMovieActors
+from addMovieScreening import addMovieScreening
 from bookTicket import bookTicket 
 
 wyswietl_filmy = Flask(__name__)

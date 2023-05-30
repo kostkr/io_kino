@@ -9,7 +9,8 @@
 #   docker run -e "ACCEPT_EULA=Y" --platform linux/amd64 -e "SA_PASSWORD=citqus-viVcy6-najcyq" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 #
 #   python3 -m venv name_of_virtualenv
-#   source name_of_virtualenv/bin/activate
+#   LINUX  : source name_of_virtualenv/bin/activate
+#   WINDOWS: source name_of_virtualenv/Scripts/activate
 #   pip3 install -r requirements.txt
 #
 #   chmod +x start.sh

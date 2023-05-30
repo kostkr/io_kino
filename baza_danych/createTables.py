@@ -113,17 +113,17 @@ filmy = """
     CREATE TABLE filmy_szczegoly (
         film_id INT FOREIGN KEY REFERENCES filmy(film_id),
         opis NVARCHAR(1000),
-        recenzje float,
+        recenzje float CHECK (recenzje >= 0.0), CHECK (recenzje <= 10),
         jezyk_oryginalny NVARCHAR(20),
         jezyk_lektor NVARCHAR(20),
         jezyk_napisy NVARCHAR(20),
-        pg_rating INT
+        pg_rating INT CHECK (pg_rating > 0)
     );
     CREATE TABLE filmy_rezyserzy (
         film_id INT FOREIGN KEY REFERENCES filmy(film_id),
         osoba_id INT FOREIGN KEY REFERENCES osoba(osoba_id),
         plec_id INT FOREIGN KEY REFERENCES plec(plec_id),
-        ocena_rezysera float 
+        ocena_rezysera float CHECK (ocena_rezysera > 0.0)
     );
     CREATE TABLE filmy_aktorzy (
         film_id INT FOREIGN KEY REFERENCES filmy(film_id),
@@ -144,7 +144,7 @@ seanse_filmowe = """
         data_rozpoczecia DATETIME,
         data_zakonczenia DATETIME,
         sala_id int FOREIGN KEY REFERENCES sale_kinowe(sala_id),
-        cena MONEY
+        cena MONEY CHECK (cena > 0)
     );
 """
 cursor.execute(seanse_filmowe)
