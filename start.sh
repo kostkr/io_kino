@@ -17,11 +17,11 @@
 #
 # source $PWD/name_of_virtualenv/bin/activate
 
-python3 $PWD/baza_danych/1createTables.py;
-python3 $PWD/baza_danych/2create_dodaj.py;
-python3 $PWD/baza_danych/3create_wyswietl.py;
-python3 $PWD/baza_danych/4create_triggers.py;
-python3 $PWD/baza_danych/1exec_dodaj.py;
+python3 $PWD/baza_danych/createTables.py;
+python3 $PWD/baza_danych/createProcedures.py;
+python3 $PWD/baza_danych/createFunctions.py;
+python3 $PWD/baza_danych/createTriggers.py;
+python3 $PWD/baza_danych/exampleData.py;
 
 export FLASK_APP=$PWD/app/wyswietl_filmy.py
 export FLASK_DEBUG=1
