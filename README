@@ -1,3 +1,5 @@
+URUCHOMIENIE
+
 1. pobierz docker
 
 2. pobierz obraz msql server:
@@ -29,3 +31,12 @@ chmod +x start.sh
 8. po zakonczeniu pracy zamknij proces aplikacji przez ^C oraz mozesz dezaktyowac srodowisko wirtualne:
 
 deactivate
+
+DOKUMENTACJA
+
+żeby sprawdzić co robi interesująca funkcja, trzeba zaimportowac modul w ktorym sie znajduje oraz wywolac funkcję help, np.:
+
+python3
+import app.wyswietl_filmy
+help(main)
+
