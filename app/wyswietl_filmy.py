@@ -13,11 +13,20 @@ wyswietl_filmy = Flask(__name__)
 
 @wyswietl_filmy.before_request
 def before_request():
+    """
+    function establishing connection to database before each other function starts
+    
+    records connection to g.conn
+    records connection cursor to g.cursor
+    """
+    
     g.conn = connection()
     g.cursor = g.conn.cursor()
 
 @wyswietl_filmy.teardown_request
 def teardown_request(exception):
+    """function closing connection to database after each other function ends"""
+    
     if hasattr(g, 'cursor'):
         g.cursor.close()
     if hasattr(g, 'conn'):
@@ -26,6 +35,8 @@ def teardown_request(exception):
 
 @wyswietl_filmy.route("/")
 def main():
+    """function generating main page view"""
+    
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_filmy")
     for row in g.cursor.fetchall():
@@ -41,6 +52,8 @@ def main():
 
 @wyswietl_filmy.route("/a_wyswietl_filmy")
 def a_wyswietl_filmy():
+    """function generating main page view for admin"""
+    
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_filmy")
     for row in g.cursor.fetchall():
@@ -55,6 +68,8 @@ def a_wyswietl_filmy():
 
 @wyswietl_filmy.route("/a_wyswietl_filmy/sprzedaz")
 def sprzedaz():
+    """function generating sale raport view for admin"""
+    
     sprzedaz = []
     g.cursor.execute("SELECT * FROM raport_sprzedazy")
     for row in g.cursor.fetchall():
@@ -71,6 +86,8 @@ def sprzedaz():
 
 @wyswietl_filmy.route("/a_wyswietl_filmy/sale_lista")
 def sale_lista():
+    """function generating cinema rooms list view for admin"""
+    
     sale = []
     g.cursor.execute("SELECT * FROM wyswietl_sale_kinowe")
     for row in g.cursor.fetchall():
@@ -86,6 +103,8 @@ def sale_lista():
 
 @wyswietl_filmy.route("/dodaj_film", methods = ['GET','POST'])
 def dodaj_film():
+    """function generating adding film view and allowing to add new film for admin"""
+    
     if request.method == 'GET':
         return render_template("dodaj_film.html", film = {})
     if request.method == 'POST':
@@ -106,6 +125,8 @@ def dodaj_film():
 
 @wyswietl_filmy.route("/dodaj_seans", methods = ['GET','POST'])
 def dodaj_seans():
+    """function generating adding seans view and allowing to add new film for admin"""
+    
     if request.method == 'GET':
         return render_template("dodaj_seans.html", seans = {})
     if request.method == 'POST':
