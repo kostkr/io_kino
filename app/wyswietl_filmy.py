@@ -125,7 +125,7 @@ def dodaj_film():
 
 @wyswietl_filmy.route("/dodaj_seans", methods = ['GET','POST'])
 def dodaj_seans():
-    """function generating adding seans view and allowing to add new film for admin"""
+    """function generating adding screening view and allowing to add new film for admin"""
     
     if request.method == 'GET':
         return render_template("dodaj_seans.html", seans = {})
