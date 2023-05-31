@@ -150,6 +150,8 @@ def dodaj_seans():
 
 @wyswietl_filmy.route("/dodaj_aktorow", methods = ['GET','POST'])
 def dodaj_aktorow():
+    """function generating adding actor view and allowing to add new actor for admin"""
+    
     if request.method == 'GET':
         return render_template("dodaj_aktorow.html", film = {})
     if request.method == 'POST':
@@ -181,6 +183,8 @@ def dodaj_aktorow():
 
 @wyswietl_filmy.route("/dodaj_film_szczegoly", methods = ['GET','POST'])
 def dodaj_film_szczegoly():
+    """function generating adding film details view and allowing to add film details for admin"""
+    
     if request.method == 'GET':
         return render_template("dodaj_film_szczegoly.html", film = {})
     if request.method == 'POST':
@@ -208,6 +212,8 @@ def dodaj_film_szczegoly():
 
 @wyswietl_filmy.route('/szczegoly/<int:id>')
 def szczegoly(id):
+    """function generating film details view"""
+    
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_szczegoly_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
@@ -227,6 +233,8 @@ def szczegoly(id):
 
 @wyswietl_filmy.route('/aktorzy/<int:id>')
 def aktorzy(id):
+    """function generating film actors view"""
+    
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_aktorow_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
@@ -247,6 +255,8 @@ def aktorzy(id):
 
 @wyswietl_filmy.route('/seans/<int:id>')
 def seans(id):
+    """function generating screenings view"""
+    
     seanse = []
     g.cursor.execute("SELECT * FROM wyswietl_seanse_po_id(?)", id)
     for row in g.cursor.fetchall():
@@ -266,6 +276,8 @@ def seans(id):
 
 @wyswietl_filmy.route('/seans/sale/<int:id>')
 def sale(id):
+    """function generating room view"""
+    
     sale = []
     g.cursor.execute("SELECT * FROM wyswietl_sale_po_id(?)", id)
     for row in g.cursor.fetchall():
@@ -280,6 +292,8 @@ def sale(id):
 
 @wyswietl_filmy.route('/seans/bilety/<int:id>', methods = ['GET','POST'])
 def bilety(id):
+    """function generating ordering tickets view and allowing to order ticket"""
+    
     if request.method == 'GET':
         seans = []
         g.cursor.execute("SELECT * FROM wyswietl_seans_po_id(?)", id)
@@ -324,6 +338,8 @@ def bilety(id):
 
 @wyswietl_filmy.route('/rezyserzy/<int:id>')
 def rezyserzy(id):
+    """function generating film directors view"""
+    
     filmy = []
     g.cursor.execute("SELECT * FROM wyswietl_szczegoly_filmu_po_id(?)", id)
     for row in g.cursor.fetchall():
