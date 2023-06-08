@@ -16,6 +16,7 @@ drop = """
     DROP FUNCTION IF EXISTS wyswietl_sale_po_id;
     DROP FUNCTION IF EXISTS wyswietl_aktorow_filmu_po_id;
     DROP FUNCTION IF EXISTS wyswietl_seans_po_id;
+    DROP FUNCTION IF EXISTS wyswietl_seanse_historia_po_id;
     DROP FUNCTION IF EXISTS wyswietl_rezyserow_filmu_po_id;
     DROP FUNCTION IF EXISTS l_sprz_bilet_na_seans;
     DROP FUNCTION IF EXISTS wolne_miejsca;
@@ -175,6 +176,28 @@ wyswietl_seanse_filmu_po_id = """
 """
 cursor.execute(wyswietl_seanse_filmu_po_id)
 
+
+wyswietl_seanse_historia_po_id = """
+    CREATE FUNCTION wyswietl_seanse_historia_po_id (@id_f INT)
+    RETURNS TABLE
+    AS
+    RETURN( 
+        SELECT  
+            filmy.tytul, 
+            filmy.premiera,
+            filmy.dlugosc,
+            S.data_rozpoczecia,
+            S.data_zakonczenia,
+            S.sala_id,
+            S.seans_id,
+            CAST(ISNULL(S.cena,0) AS DECIMAL (19,2)) cena
+        FROM filmy 
+        JOIN 
+            seanse_filmowe AS S ON S.film_id = filmy.film_id
+        WHERE filmy.film_id = @id_f AND S.data_zakonczenia < GETDATE()
+    )
+"""
+cursor.execute(wyswietl_seanse_historia_po_id)
 
 
 

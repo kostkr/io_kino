@@ -270,7 +270,27 @@ def seans(id):
             "seans_id":         row[6], 
             "cena":             row[7]
             })
-    return render_template("wyswietl_seans.html", seanse = seanse)
+    return render_template("wyswietl_seans.html", seanse = seanse, id = id)
+
+
+@wyswietl_filmy.route('/seans/<int:id>/history')
+def history(id):
+    """function generating screenings view"""
+    
+    seanse = []
+    g.cursor.execute("SELECT * FROM wyswietl_seanse_historia_po_id(?)", id)
+    for row in g.cursor.fetchall():
+        seanse.append({
+            "tytul":            row[0], 
+            "premiera":         row[1], 
+            "dlugosc":          row[2], 
+            "data_rozpoczecia": row[3], 
+            "data_zakonczenia": row[4], 
+            "sala_id":          row[5], 
+            "seans_id":         row[6], 
+            "cena":             row[7]
+            })
+    return render_template("wyswietl_seans_history.html", seanse = seanse, id = id)
 
 
 
@@ -336,33 +356,6 @@ def bilety(id):
 
 
 
-@wyswietl_filmy.route('/rezyserzy/<int:id>')
-def rezyserzy(id):
-    """function generating film directors view"""
-    
-    filmy = []
-    g.cursor.execute("SELECT * FROM wyswietl_szczegoly_filmu_po_id(?)", id)
-    for row in g.cursor.fetchall():
-        filmy.append({
-            "tytul":            row[0], 
-            "premiera":         row[1], 
-            "dlugosc":          row[2], 
-            "opis":             row[3], 
-            "recenzje":         row[4], 
-            "jezyk_oryginalny": row[5], 
-            "jezyk_lektor":     row[6], 
-            "jezyk_napisy":     row[7], 
-            "pg_rating":        row[8]
-            })
-    return render_template("wyswietl_filmy_szczegoly.html", filmy = filmy)
-
-
-# zrobic dodawanie rezyserow
-
-
-
-
 
 if(__name__ == "__main__"):
-    print("def")
     wyswietl_filmy.run()
